@@ -314,6 +314,9 @@ class GcovParser(object):
         if firstchar in "0123456789":
             # GCOV 8 marks partial coverage
             # with a trailing "*" after the execution count.
+            if "*" in status:
+                self.coverage.line(self.lineno)  # sets count to 0 if not present before
+                return True
             self.coverage.line(self.lineno).count += int(status.rstrip('*'))
             return True
 
